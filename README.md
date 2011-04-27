@@ -22,9 +22,6 @@ compound values (arrays, objects).
       'object' => new SampleObject(),
     )
 
-Definition
-----------
-
 Shed supports lazy loading, which means the initialization of an object is 
 delayed until the first time it is needed.
 
