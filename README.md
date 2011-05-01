@@ -39,8 +39,7 @@ array.
 Definition options
 ------------------
 
-    file (file to require if class not exists)
-    file_if_class_not_exists (bool)
+    files (files to require)
     class
     callback
     args (either construct args or callback args)

@@ -93,10 +93,15 @@ class Container extends \ArrayObject {
       $is_class = isset($def['class']);
       $is_callback = isset($def['callback']);
 
-      // require file
-      if (isset($def['file']) &&
-        (!$is_class || !isset($def['file_if_class_not_exists']) || !class_exists($def['class'], true))) {
-        require_once $def['file'];
+      // require files
+      if (isset($def['file'])) {
+        $files = $def['file'];
+        if (!is_array($files)) {
+          $files = array($files);
+        }
+        foreach ($files as $file) {
+          require_once $file;
+        }
       }
 
       // args
