@@ -112,7 +112,11 @@ class Container extends \ArrayObject {
         $ref_class = new \ReflectionClass($def['class']);
         $var = $ref_class->newInstanceArgs($args);
       } elseif ($is_callback) {
-        $var = call_user_func_array($def['callback'], $args);
+        $callback = $def['callback'];
+        if (is_array($callback)) {
+          $callback = $this->resolveMany($callback);
+        }
+        $var = call_user_func_array($callback, $args);
       } else {
         trigger_error(
           'Either "class" or "callback" must be defined for definition',
