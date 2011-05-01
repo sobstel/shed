@@ -36,7 +36,7 @@ class Container extends \ArrayObject {
   public function offsetGet($name) {
     $value = (parent::offsetExists($name) ? parent::offsetGet($name) : null);
     if (!isset($this->resolved_vars[$name])) {      
-      $value = $this->resolve($name, $value);
+      $value = $this->resolve($value);
       $this->offsetSet($name, $value);
       $this->resolved_vars[$name] = true;
     }
@@ -55,26 +55,24 @@ class Container extends \ArrayObject {
   /**
    * Resolves reference and definitions (if found)
    *
-   * @param mixed(string|null) $name
    * @param mixed $var
    * @return mixed
    */
-  protected function resolve($name, $var) {
+  protected function resolve($var) {
     $var = $this->resolveReference($var);
-    $var = $this->resolveDefinition($name, $var);
+    $var = $this->resolveDefinition($var);
     return $var;
   }
 
   /**
    * Resolve many vars in row
    *
-   * @param mixed(string|null) $name
    * @param array $array
    * @return mixed
    */
-  protected function resolveMany($name, array $vars) {
+  protected function resolveMany(array $vars) {
     foreach ($vars as &$var) {
-      $this->resolve($name, $var);
+      $var = $this->resolve($var);
     }
     return $vars;
   }
@@ -82,11 +80,10 @@ class Container extends \ArrayObject {
   /**
    * Resolves definition (self::DEFINITION)
    *
-   * @param mixed(string|null) $name
    * @param mixed $var Definition to resolve or primitive type
    * @return mixed
    */
-  protected function resolveDefinition($name, $var) {
+  protected function resolveDefinition($var) {
     if (is_array($var) && (reset($var) === self::DEFINITION)) {
       $def = $var;
 
@@ -107,7 +104,7 @@ class Container extends \ArrayObject {
       // args
       $args = array();
       if (isset($def['args'])) {
-        $args = $this->resolveMany(null, $def['args']);
+        $args = $this->resolveMany($def['args']);
       }
 
       // create instance or call callback
@@ -118,7 +115,7 @@ class Container extends \ArrayObject {
         $var = call_user_func_array($def['callback'], $args);
       } else {
         trigger_error(
-          'Either "class" or "callback" must be defined for "' . $name . '" definition',
+          'Either "class" or "callback" must be defined for definition',
           E_USER_ERROR
         );
       }
@@ -128,17 +125,17 @@ class Container extends \ArrayObject {
         foreach ($def['methods'] as $method) {
           $method_args = array();
           if (isset($method['args'])) {
-            $method_args = $this->resolveMany(null, $method['args']);
+            $method_args = $this->resolveMany($method['args']);
           }
 
-          call_user_func_array(array($var, $method['method']), $method_args);
+          call_user_func_array(array($var, $method['name']), $method_args);
         }
       }
 
       // set properties
       if (isset($def['properties'])) {
         foreach ($def['properties'] as $property) {
-          $var->{$poperty['name']} = $this->resolve(null, $property['value']);
+          $var->{$property['name']} = $this->resolve($property['value']);
         }
       }
     }
