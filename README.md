@@ -102,7 +102,7 @@ Singleton.
 
 	  'singleton' => array(
 	 	  Container::DEFINITION,
-		  'callback' => array('SingletonObject', 'get')
+		  'callback' => array('SingletonObject', 'getInstance')
 	  )
 
 ### args
