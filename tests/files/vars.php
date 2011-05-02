@@ -6,6 +6,7 @@ return array(
 
 	'bool' => true,
 	'int' => 5,
+  'int2' => 6, // overwritten during tests
 	'float' => 1.2345,
 	'string' => 'string',
 

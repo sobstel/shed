@@ -122,4 +122,21 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     $this->isInstanceOf('TestFactoryFakeSingleton', $container['singleton']);
   }
 
+  public function testVarCanBeSet() {
+    $container = $this->getContainer();
+
+    $this->assertSame(6, $container['int2']);
+    $container['int2'] = 7;
+    $this->assertSame(7, $container['int2']);
+  }
+    
+  /**
+   * @expectedException Shed\Exception
+   */
+  public function testThrowsExceptionOnNotExistingMethod() {
+    $container = $this->getContainer();
+    
+    $container->notExistentMethod();
+  }
+
 }
