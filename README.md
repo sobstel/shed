@@ -36,20 +36,6 @@ array.
       )
     )
 
-Definition options
-------------------
-
-    files (files to require)
-    class
-    callback
-    args (either construct args or callback args)
-    methods
-     name
-     args
-    properties
-     name
-     value
-
 References
 ----------
 
@@ -69,6 +55,90 @@ arguments, etc. Reference is indicated by ampersand sign (&) at the beginning.
         ),
       ),
     )
+
+Definition options
+------------------
+
+Possible options: `class`, `callback`, `args`, `methods` (`name`, `args`), 
+`properties` (`name`, `value`), `files`.
+
+### files
+
+Files to require. Useful if proper autoloading callback is not registered.
+
+    'object' => array(
+      Container::DEFINITION,
+      'class' => 'SampleObject',
+      'file' => __DIR__.'/classes/SampleObject.php'
+    )
+
+### class
+
+Class name of object to be initialized on call.
+
+    'object' => array(
+      Container::DEFINITION,
+      'class' => 'SampleObject',
+    )
+
+### callback
+
+Function.
+
+	  'callback' => array(
+		  Container::DEFINITION,
+		  'callback' => 'floor',
+		  'args' => array(4.89)
+	  )
+
+Callback with reference (call to object's method).
+
+	  'callback_with_ref' => array(
+		  Container::DEFINITION,
+		  'callback' => array('&object', 'createObject')
+	  )
+
+Singleton.
+
+	  'singleton' => array(
+	 	  Container::DEFINITION,
+		  'callback' => array('SingletonObject', 'get')
+	  )
+
+### args
+
+Either construct arguments or callback arguments.
+
+	  'object' => array(
+		  Container::DEFINITION,
+		  'class' => 'SampleObject',
+		  'args' => array('val1', 'val2')
+	  ),
+
+### methods
+
+Methods to call right after initialization.
+
+	'object' => array(
+		Container::DEFINITION,
+		'class' => 'SampleObject',
+		'methods' => array(
+      array('name' => 'setArg', 'args' => array('val1')),
+      array('name' => 'setArg', 'args' => array('val2')),
+		)
+	)
+
+### properties
+
+Properties to be set right after initialization.
+
+	'object' => array(
+		Container::DEFINITION,
+		'class' => 'SampleObject',
+		'properties' => array(
+      array('name' => 'arg', 'value' => 'val')
+		)
+	)
 
 Usage
 -----
