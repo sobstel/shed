@@ -34,6 +34,14 @@ return array(
 		)
 	),
 
+	'lazy_object_with_properties' => array(
+		Container::DEFINITION,
+		'class' => '\Shed\Tests\Container\SampleObject',
+		'properties' => array(
+      array('name' => 'arg4', 'value' => 10)
+		)
+	),
+  
 	'lazy_object_with_ref' => array(
 		Container::DEFINITION,
 		'class' => '\Shed\Tests\Container\SampleObject',

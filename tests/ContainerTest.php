@@ -88,6 +88,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     $this->assertSame(8, $container['lazy_object_with_methods']->getArg3(), 'Wrong third argument value!');
   }
 
+  public function testPropertiesCanBePassedForLazyObjects() {
+    $container = $this->getContainer();
+
+    $this->assertInternalType('object', $container['lazy_object_with_properties']);
+    $this->assertSame(10, $container['lazy_object_with_properties']->arg4);
+  }
+
   public function testArgCanBeTheReferenceToOtherVar() {
     $container = $this->getContainer();
 

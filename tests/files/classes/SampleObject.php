@@ -5,6 +5,8 @@ class SampleObject
 {
 
 	protected $arg1, $arg2, $arg3 = 3;
+  
+  public $arg4;
 
 	public function __construct($arg1 = 1, $arg2 = 2)
 	{
