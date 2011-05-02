@@ -32,7 +32,7 @@ array.
       'lazy_object' => array(
         Container::DEFINITION,
         'class' => 'LazyObject',
-        'construct' => array(4, 5)
+        'args' => array(4, 5)
       )
     )
 
@@ -65,7 +65,7 @@ arguments, etc. Reference is indicated by ampersand sign (&) at the beginning.
         Container::DEFINITION,
         'class' => 'LazyObject',
         'methods' => array(
-          'inject' => array('&injected_object'),
+          array('name' => 'inject', 'args' => array('&injected_object')),
         ),
       ),
     )
