@@ -48,7 +48,7 @@ class Container extends \ArrayObject {
       $name = strtolower($method{3}).substr($method, 4); // transforming getVarName => var_name
       return $this[$name];
     } else {
-      trigger_error('Call to undefined method'. __CLASS__ .'::'.$method.'()', E_USER_ERROR);
+      throw new Exception('Call to undefined method'. __CLASS__ .'::'.$method.'()', E_USER_ERROR);
     }
   }
 
@@ -118,10 +118,7 @@ class Container extends \ArrayObject {
         }
         $var = call_user_func_array($callback, $args);
       } else {
-        trigger_error(
-          'Either "class" or "callback" must be defined for definition',
-          E_USER_ERROR
-        );
+        throw new Exception('Either "class" or "callback" must be defined for definition');
       }
 
       // execute methods
@@ -161,4 +158,7 @@ class Container extends \ArrayObject {
     return $var;
   }
 
+}
+
+class Exception extends \Exception {
 }
