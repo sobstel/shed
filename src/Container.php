@@ -48,7 +48,7 @@ class Container extends \ArrayObject {
       $name = strtolower($method{3}).substr($method, 4); // transforming getVarName => var_name
       return $this[$name];
     } else {
-      throw new Exception('Call to undefined method'. __CLASS__ .'::'.$method.'()', E_USER_ERROR);
+      throw new Exception('Call to undefined method'. __CLASS__ .'::'.$method.'()');
     }
   }
 
